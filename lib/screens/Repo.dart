@@ -1,32 +1,31 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Repository {
   final String name;
   final String description;
   final String owner;
-  // final String htmlUrl;
+  final String htmlUrl;
 
   Repository({
     required this.name,
     required this.description,
     required this.owner,
-    // required this.htmlUrl,
+    required this.htmlUrl,
   });
 
   factory Repository.fromJson(Map<String, dynamic> json) {
     return Repository(
-      name: json['name'],
-      description: json['description'],
-      owner: json['owner']['login'],
-      // htmlUrl: json['html_url'],
+      name: json['name']??'',
+      description: json['description']??'',
+      owner: json['owner']['login']??'',
+      htmlUrl: json['html_url']??'',
     );
   }
 }
 
-// GitHub API service
 class GithubApi {
   final String owner;
 
@@ -64,17 +63,16 @@ class _RepoState extends State<Repo> {
       });
     }
   }
-  //  void _launchURL(String url) async {
-  //   try {
-  //     if (await canLaunch(url)) {
-  //       await launch(url);
-  //     } else {
-  //       print('Could not launch: $url');
-  //     }
-  //   } catch (e) {
-  //     print('Error launching URL: $e');
-  //   }
-  // }
+   void _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      
+      await launchUrl(uri,mode: LaunchMode.inAppWebView);
+      
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
 
   @override
@@ -149,7 +147,7 @@ class _RepoState extends State<Repo> {
                             Text('Owner: ${repo.owner}'),
                           ],
                         ),
-                        // onTap: () =>_launchURL(repo.htmlUrl),
+                        onTap: () =>_launchURL(repo.htmlUrl),
                       );
                     },
                   );

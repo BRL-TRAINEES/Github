@@ -3,39 +3,66 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
-class Repository {
+class SearchResult {
   final String name;
   final String description;
-  final String owner;
-  final String htmlUrl;
+  final String url;
 
-  Repository({
+  SearchResult({
     required this.name,
     required this.description,
-    required this.owner,
-    required this.htmlUrl,
+    required this.url,
   });
 
-  factory Repository.fromJson(Map<String, dynamic> json) {
-    return Repository(
-      name: json['name'],
-      description: json['description'],
-      owner: json['owner']['login'],
-      htmlUrl: json['html_url'],
+  factory SearchResult.fromRepoJson(Map<String, dynamic> json) {
+    return SearchResult(
+      name: json['name'] ,
+      description: json['description'] ,
+      url: json['html_url'] ,
+    );
+  }
+
+  factory SearchResult.fromUserJson(Map<String, dynamic> json) {
+    return SearchResult(
+      name: json['login'] ,
+      description: json['html_url'] ,
+      url: json['html_url'],
+    );
+  }
+
+  factory SearchResult.fromIssueJson(Map<String, dynamic> json) {
+    return SearchResult(
+      name: json['title'],
+      description: json['body'] ,
+      url: json['html_url'] ,
     );
   }
 }
 
 class GithubApi {
-  Future<List<Repository>> fetchRepositories(String owner) async {
-    final response = await http.get(Uri.parse('https://api.github.com/users/$owner/repos'));
+  Future<List<SearchResult>> search(String query) async {
+    final response = await http.get(Uri.parse('https://api.github.com/search/repositories?q=$query'));
+    final userResponse = await http.get(Uri.parse('https://api.github.com/search/users?q=$query'));
+    final issueResponse = await http.get(Uri.parse('https://api.github.com/search/issues?q=$query'));
+
+    List<SearchResult> results = [];
 
     if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
-      return jsonResponse.map((repo) => Repository.fromJson(repo)).toList();
-    } else {
-      throw Exception('Failed to load repositories');
+      List<dynamic> jsonResponse = json.decode(response.body)['items'];
+      results.addAll(jsonResponse.map((repo) => SearchResult.fromRepoJson(repo)).toList());
     }
+
+    if (userResponse.statusCode == 200) {
+      List<dynamic> jsonResponse = json.decode(userResponse.body)['items'];
+      results.addAll(jsonResponse.map((user) => SearchResult.fromUserJson(user)).toList());
+    }
+
+    if (issueResponse.statusCode == 200) {
+      List<dynamic> jsonResponse = json.decode(issueResponse.body)['items'];
+      results.addAll(jsonResponse.map((issue) => SearchResult.fromIssueJson(issue)).toList());
+    }
+
+    return results;
   }
 }
 
@@ -47,24 +74,14 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final TextEditingController ownerController = TextEditingController();
-  Future<List<Repository>>? futureRepositories;
-  List<String> suggestions = [];
+  final TextEditingController searchController = TextEditingController();
+  Future<List<SearchResult>>? futureResults;
 
-  void _searchRepositories(String query) {
+  void _search() {
+    final query = searchController.text;
     if (query.isNotEmpty) {
-      GithubApi().fetchRepositories(query).then((repos) {
-        setState(() {
-          suggestions = repos.map((repo) => repo.name).toList();
-        });
-      }).catchError((_) {
-        setState(() {
-          suggestions = [];
-        });
-      });
-    } else {
       setState(() {
-        suggestions = [];
+        futureResults = GithubApi().search(query);
       });
     }
   }
@@ -72,56 +89,29 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Search Repositories')),
+      appBar: AppBar(title: const Text('Search GitHub')),
       backgroundColor: Colors.teal[50],
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            const SizedBox(height: 20),
             TextField(
-              controller: ownerController,
-              onChanged: _searchRepositories,
+              controller: searchController,
               decoration: InputDecoration(
-                labelText: 'Repository Owner',
+                labelText: 'Search',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
                   borderSide: const BorderSide(width: 2.5),
                 ),
-                prefixIcon: const Icon(Icons.person, color: Colors.teal),
+                prefixIcon: const Icon(Icons.search, color: Colors.teal),
                 filled: true,
                 fillColor: Colors.white,
               ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: suggestions.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(suggestions[index]),
-                    onTap: () {
-                      ownerController.text = suggestions[index];
-                      setState(() {
-                        futureRepositories = GithubApi().fetchRepositories(suggestions[index]);
-                        suggestions = [];
-                      });
-                    },
-                  );
-                },
-              ),
+              onSubmitted: (value) => _search(),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                final owner = ownerController.text;
-                if (owner.isNotEmpty) {
-                  setState(() {
-                    futureRepositories = GithubApi().fetchRepositories(owner);
-                    suggestions = [];
-                  });
-                }
-              },
+              onPressed: _search,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 textStyle: const TextStyle(fontSize: 18),
@@ -129,32 +119,30 @@ class _SearchScreenState extends State<SearchScreen> {
                   borderRadius: BorderRadius.circular(12.0),
                 ),
               ),
-              child: const Text('Search GitHub'),
+              child: const Text('Search'),
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: FutureBuilder<List<Repository>>(
-                future: futureRepositories,
+              child: FutureBuilder<List<SearchResult>>(
+                future: futureResults,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('No repositories found.'));
+                    return const Center(child: Text('No results found.'));
                   }
 
-                  final repositories = snapshot.data!;
+                  final results = snapshot.data!;
                   return ListView.builder(
-                    itemCount: repositories.length,
+                    itemCount: results.length,
                     itemBuilder: (context, index) {
-                      final repo = repositories[index];
+                      final result = results[index];
                       return ListTile(
-                        title: Text(repo.name),
-                        subtitle: Text(repo.description),
-                        onTap: () {
-                          _launchURL(repo.htmlUrl);
-                        },
+                        title: Text(result.name),
+                        subtitle: Text(result.description),
+                        onTap: () => _launchURL(result.url),
                       );
                     },
                   );
@@ -176,3 +164,4 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 }
+
