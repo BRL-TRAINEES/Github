@@ -64,7 +64,7 @@ class _IssuesScreenState extends State<IssuesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Issues')),
+      appBar: AppBar(title: const Text('Issues')),
       backgroundColor: Colors.teal[50],
       body: Padding(
         padding: const EdgeInsets.all(20.0),

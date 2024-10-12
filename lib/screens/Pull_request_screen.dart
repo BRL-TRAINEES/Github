@@ -55,7 +55,7 @@ class _PullRequestScreenState extends State<PullRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Pull Requests')),
+      appBar: AppBar(title: const Text('Pull Requests')),
       backgroundColor: Colors.teal[50],
       body: Padding(
         padding: const EdgeInsets.all(20.0),

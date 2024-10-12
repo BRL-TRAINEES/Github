@@ -203,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               ),
               const Divider(),
-              SizedBox(height: 15.0,),
+              const SizedBox(height: 15.0,),
               Row(
                 children: [
                  
@@ -289,9 +289,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomeScreen()),);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const HomeScreen()),);
               },
-              child: Icon(Icons.home),
+              child: const Icon(Icons.home),
             ),
             
                  GestureDetector(
@@ -308,9 +308,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Notifications()),);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Notifications()),);
               },
-              child: Icon(Icons.notifications),
+              child: const Icon(Icons.notifications),
             ),
             
                  GestureDetector(
@@ -327,9 +327,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Explore()),);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Explore()),);
               },
-              child: Icon(Icons.explore),
+              child: const Icon(Icons.explore),
             ),
             
                  GestureDetector(
@@ -346,9 +346,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Profile()),);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Profile()),);
               },
-              child: Icon(Icons.account_circle),
+              child: const Icon(Icons.account_circle),
             ),
             
                  GestureDetector(

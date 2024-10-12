@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:github/screens/Repo.dart';
 import 'package:http/http.dart' as http;
 
 class Discussion{
@@ -24,7 +25,7 @@ class GithubApi {
 
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
-      return jsonResponse.map((pr) => Discussion.fromJson(pr)).toList();
+      return jsonResponse.map((discussion) => Discussion.fromJson(discussion)).toList();
     } else {
       throw Exception('Failed to load Discussions');
     }
@@ -58,7 +59,7 @@ final TextEditingController ownerController = TextEditingController();
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-      appBar: AppBar(title: Text('Discussions')),
+      appBar: AppBar(title: const Text('Discussions')),
       backgroundColor: Colors.teal[50],
       body: Padding(
         padding: const EdgeInsets.all(20.0),
