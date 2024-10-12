@@ -9,6 +9,7 @@ import 'package:github/screens/Issues_screen.dart';
 // import 'package:github/screens/Projects.dart';
 import 'package:github/screens/Pull_request_screen.dart';
 import 'package:github/screens/Repo.dart';
+import 'package:github/screens/search_screen.dart';
 // import 'package:github/screens/search_screen.dart';
 
 
@@ -31,19 +32,19 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.bold,
             fontSize: 30) ,),
 
-          // actions: [IconButton(
-          // icon: const Icon(Icons.search),
-          // onPressed: () {
-          //    Navigator.of(context).push(
-          //    MaterialPageRoute(builder: (context)=>const SearchScreen(),),
-          // );
-          // },
-          // iconSize: 30,
+          actions: [IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () {
+             Navigator.of(context).push(
+             MaterialPageRoute(builder: (context)=>const SearchScreen(),),
+          );
+          },
+          iconSize: 30,
           
-          //  )
+           )
             
             
-          // ],
+          ],
 
         ),
         
