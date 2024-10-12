@@ -129,7 +129,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   borderRadius: BorderRadius.circular(12.0),
                 ),
               ),
-              child: const Text('Search Repositories'),
+              child: const Text('Search GitHub'),
             ),
             const SizedBox(height: 20),
             Expanded(
