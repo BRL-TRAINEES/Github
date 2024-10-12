@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                  GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const Discussion()),
+                          MaterialPageRoute(builder: (context) => const DiscussionScreen()),
                         );
                       },
                       child: SvgPicture.asset(
@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                  GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const Discussion()),
+                          MaterialPageRoute(builder: (context) => const DiscussionScreen()),
                         );
                         
                       },
