@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:github/screens/Discussion.dart';
-import 'package:github/screens/Explore.dart';
+// import 'package:github/screens/Explore.dart';
 import 'package:github/screens/Issues_screen.dart';
-import 'package:github/screens/Notifications.dart';
-import 'package:github/screens/Organisation.dart';
-import 'package:github/screens/Profile.dart';
-import 'package:github/screens/Projects.dart';
+// import 'package:github/screens/Notifications.dart';
+// import 'package:github/screens/Organisation.dart';
+// import 'package:github/screens/Profile.dart';
+// import 'package:github/screens/Projects.dart';
 import 'package:github/screens/Pull_request_screen.dart';
 import 'package:github/screens/Repo.dart';
-import 'package:github/screens/search_screen.dart';
+// import 'package:github/screens/search_screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -31,19 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.bold,
             fontSize: 30) ,),
 
-          actions: [IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {
-             Navigator.of(context).push(
-             MaterialPageRoute(builder: (context)=>const SearchScreen(),),
-          );
-          },
-          iconSize: 30,
+          // actions: [IconButton(
+          // icon: const Icon(Icons.search),
+          // onPressed: () {
+          //    Navigator.of(context).push(
+          //    MaterialPageRoute(builder: (context)=>const SearchScreen(),),
+          // );
+          // },
+          // iconSize: 30,
           
-           )
+          //  )
             
             
-          ],
+          // ],
 
         ),
         
@@ -166,42 +166,42 @@ class _HomeScreenState extends State<HomeScreen> {
                ],
 
               ),
-              const Divider(),
-              const SizedBox(height: 15.0,),
-              Row(
-                children: [
+              // const Divider(),
+              // const SizedBox(height: 15.0,),
+              // Row(
+              //   children: [
                  
-                 GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const Projects()),
-                        );
-                      },
-                      child: SvgPicture.asset(
-                        'assets/Project.svg',
-                        width: 24,
-                        height: 24,
-                      ),
-                    ), 
-                    const SizedBox(width: 8.0,),
-                 GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const Projects()),
-                        );
+              //    GestureDetector(
+              //         onTap: () {
+              //           Navigator.of(context).push(
+              //             MaterialPageRoute(builder: (context) => const Projects()),
+              //           );
+              //         },
+              //         child: SvgPicture.asset(
+              //           'assets/Project.svg',
+              //           width: 24,
+              //           height: 24,
+              //         ),
+              //       ), 
+              //       const SizedBox(width: 8.0,),
+              //    GestureDetector(
+              //         onTap: () {
+              //           Navigator.of(context).push(
+              //             MaterialPageRoute(builder: (context) => const Projects()),
+              //           );
                         
-                      },
+              //         },
                       
                       
-                      child: const Text('Proejcts',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),)
-                      ),
+              //         child: const Text('Proejcts',
+              //         style: TextStyle(
+              //           fontSize: 20,
+              //         ),)
+              //         ),
                      
-               ],
+              //  ],
 
-              ),
+              // ),
               const Divider(),
               const SizedBox(height: 15.0,),
               Row(
@@ -238,137 +238,137 @@ class _HomeScreenState extends State<HomeScreen> {
                ],
 
               ),
-              const Divider(),
-             const SizedBox(height: 15.0,),
-              Row(
-                children: [
+            //   const Divider(),
+            //  const SizedBox(height: 15.0,),
+            //   Row(
+            //     children: [
                  
-                 GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const Organisation()),
-                        );
-                      },
-                      child: SvgPicture.asset(
-                        'assets/Organisation.svg',
-                        width: 24,
-                        height: 24,
-                      ),
-                    ), 
-                    const SizedBox(width: 8.0,),
-                 GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const Organisation()),
-                        );
+            //      GestureDetector(
+            //           onTap: () {
+            //             Navigator.of(context).push(
+            //               MaterialPageRoute(builder: (context) => const Organisation()),
+            //             );
+            //           },
+            //           child: SvgPicture.asset(
+            //             'assets/Organisation.svg',
+            //             width: 24,
+            //             height: 24,
+            //           ),
+            //         ), 
+            //         const SizedBox(width: 8.0,),
+            //      GestureDetector(
+            //           onTap: () {
+            //             Navigator.of(context).push(
+            //               MaterialPageRoute(builder: (context) => const Organisation()),
+            //             );
                         
-                      },
+            //           },
                       
                       
-                      child: const Text('Organisations',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),)
-                      ),
+            //           child: const Text('Organisations',
+            //           style: TextStyle(
+            //             fontSize: 20,
+            //           ),)
+            //           ),
                      
-               ],
+            //    ],
 
-              ),
+            //   ),
               
             ],
           ),
           ),
       ),
       
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
+      // bottomNavigationBar: BottomAppBar(
+      //   child: Row(
           
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.start,
+      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //     crossAxisAlignment: CrossAxisAlignment.start,
           
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const HomeScreen()),);
-              },
-              child: const Icon(Icons.home),
-            ),
+      //     children: [
+      //       GestureDetector(
+      //         onTap: () {
+      //           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const HomeScreen()),);
+      //         },
+      //         child: const Icon(Icons.home),
+      //       ),
             
-                 GestureDetector(
+      //            GestureDetector(
                   
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const HomeScreen()),
-                        );
+      //                 onTap: () {
+      //                   Navigator.of(context).push(
+      //                     MaterialPageRoute(builder: (context) => const HomeScreen()),
+      //                   );
                         
-                      },
+      //                 },
                       
                       
-                      child: const Text('Home',)
-                      ),
-                      GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Notifications()),);
-              },
-              child: const Icon(Icons.notifications),
-            ),
+      //                 child: const Text('Home',)
+      //                 ),
+      //                 GestureDetector(
+      //         onTap: () {
+      //           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Notifications()),);
+      //         },
+      //         child: const Icon(Icons.notifications),
+      //       ),
             
-                 GestureDetector(
+      //            GestureDetector(
                   
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const Notifications()),
-                        );
+      //                 onTap: () {
+      //                   Navigator.of(context).push(
+      //                     MaterialPageRoute(builder: (context) => const Notifications()),
+      //                   );
                         
-                      },
+      //                 },
                       
                       
-                      child: const Text('Notification',)
-                      ),
-                      GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Explore()),);
-              },
-              child: const Icon(Icons.explore),
-            ),
+      //                 child: const Text('Notification',)
+      //                 ),
+      //                 GestureDetector(
+      //         onTap: () {
+      //           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Explore()),);
+      //         },
+      //         child: const Icon(Icons.explore),
+      //       ),
             
-                 GestureDetector(
+      //            GestureDetector(
                   
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const Explore()),
-                        );
+      //                 onTap: () {
+      //                   Navigator.of(context).push(
+      //                     MaterialPageRoute(builder: (context) => const Explore()),
+      //                   );
                         
-                      },
+      //                 },
                       
                       
-                      child: const Text('Home',)
-                      ),
-                      GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Profile()),);
-              },
-              child: const Icon(Icons.account_circle),
-            ),
+      //                 child: const Text('Home',)
+      //                 ),
+      //                 GestureDetector(
+      //         onTap: () {
+      //           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const Profile()),);
+      //         },
+      //         child: const Icon(Icons.account_circle),
+      //       ),
             
-                 GestureDetector(
+      //            GestureDetector(
                   
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const Profile()),
-                        );
+      //                 onTap: () {
+      //                   Navigator.of(context).push(
+      //                     MaterialPageRoute(builder: (context) => const Profile()),
+      //                   );
                         
-                      },
+      //                 },
                       
                       
-                      child: const Text('Profile',)
-                      ),
+      //                 child: const Text('Profile',)
+      //                 ),
                       
-          ],
-        ),
+      //     ],
+      //   ),
         
         
-      ),
+      // ),
     ));
   }
 }
