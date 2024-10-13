@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:github/screens/Discussion.dart';
-// import 'package:github/screens/Explore.dart';
 import 'package:github/screens/Issues_screen.dart';
-// import 'package:github/screens/Notifications.dart';
-// import 'package:github/screens/Organisation.dart';
-// import 'package:github/screens/Profile.dart';
-// import 'package:github/screens/Projects.dart';
 import 'package:github/screens/Pull_request_screen.dart';
 import 'package:github/screens/Repo.dart';
+import 'package:github/screens/User.dart';
 import 'package:github/screens/search_screen.dart';
-// import 'package:github/screens/search_screen.dart';
+
 
 
 class HomeScreen extends StatefulWidget {
@@ -167,42 +163,38 @@ class _HomeScreenState extends State<HomeScreen> {
                ],
 
               ),
-              // const Divider(),
-              // const SizedBox(height: 15.0,),
-              // Row(
-              //   children: [
+              const Divider(),
+              const SizedBox(height: 15.0,),
+              Row(
+                children: [
                  
-              //    GestureDetector(
-              //         onTap: () {
-              //           Navigator.of(context).push(
-              //             MaterialPageRoute(builder: (context) => const Projects()),
-              //           );
-              //         },
-              //         child: SvgPicture.asset(
-              //           'assets/Project.svg',
-              //           width: 24,
-              //           height: 24,
-              //         ),
-              //       ), 
-              //       const SizedBox(width: 8.0,),
-              //    GestureDetector(
-              //         onTap: () {
-              //           Navigator.of(context).push(
-              //             MaterialPageRoute(builder: (context) => const Projects()),
-              //           );
+                 GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
+                      },
+                      child: Icon(Icons.account_circle_rounded)
+                    ), 
+                    const SizedBox(width: 8.0,),
+                 GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => MyApp()),
+                        );
                         
-              //         },
+                      },
                       
                       
-              //         child: const Text('Proejcts',
-              //         style: TextStyle(
-              //           fontSize: 20,
-              //         ),)
-              //         ),
+                      child: const Text('Users',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),)
+                      ),
                      
-              //  ],
+               ],
 
-              // ),
+              ),
               const Divider(),
               const SizedBox(height: 15.0,),
               Row(
