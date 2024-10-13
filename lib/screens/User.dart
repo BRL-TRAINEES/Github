@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// User profile screen widget
+
 class GitHubUserScreen extends StatefulWidget {
   @override
   _GitHubUserScreenState createState() => _GitHubUserScreenState();
