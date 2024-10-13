@@ -16,25 +16,25 @@ class SearchResult {
 
   factory SearchResult.fromRepoJson(Map<String, dynamic> json) {
     return SearchResult(
-      name: json['name'] ,
-      description: json['description'] ,
-      url: json['html_url'] ,
+      name: json['name']??'' ,
+      description: json['description']??'' ,
+      url: json['html_url']??'' ,
     );
   }
 
   factory SearchResult.fromUserJson(Map<String, dynamic> json) {
     return SearchResult(
-      name: json['login'] ,
-      description: json['html_url'] ,
-      url: json['html_url'],
+      name: json['login'] ??'',
+      description: json['html_url'] ??'',
+      url: json['html_url']??'',
     );
   }
 
   factory SearchResult.fromIssueJson(Map<String, dynamic> json) {
     return SearchResult(
-      name: json['title'],
-      description: json['body'] ,
-      url: json['html_url'] ,
+      name: json['title']??'',
+      description: json['body']??'' ,
+      url: json['html_url']??'' ,
     );
   }
 }
