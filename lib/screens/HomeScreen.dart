@@ -6,6 +6,7 @@ import 'package:github/screens/Organisation.dart';
 import 'package:github/screens/Repo.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class UserProfile {
   final String login;
@@ -62,7 +63,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<UserProfile>futureProfile; 
+  late Future<UserProfile> futureProfile;
   // when we dont know the value initially and it could be null we use late
   final TextEditingController _controller = TextEditingController();
 
@@ -148,9 +149,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                   'https://avatars.githubusercontent.com/u/${profile.id}?v=4'),
                             ),
                             SizedBox(height: 10),
-                            Text(profile.login,
+                            InkWell(
+                              onTap: () async {
+                                final url = Uri.parse(profile.url);
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                } else {
+                                  throw 'Could not launch $url';
+                                }
+                              },
+                              child: Text(
+                                profile.login,
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 20)),
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 10.0),
                             GestureDetector(
                               onTap: () {
