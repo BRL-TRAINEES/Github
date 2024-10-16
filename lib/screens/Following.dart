@@ -61,17 +61,23 @@ class _FollowingScreenState extends State<FollowingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Following'),
+        title: const Text('Following',
+        style: TextStyle(color: Colors.white,
+        fontSize: 18),
+        ),
+        backgroundColor: const Color(0xFF2B2B2B),
+       iconTheme: const IconThemeData(color: Colors.white),
       ),
+      backgroundColor: Colors.black,
       body: FutureBuilder<List<Following>>(
         future: futureFollowing,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData ) {
-            return Center(child: Text('No following found'));
+            return const Center(child: Text('No following found'));
           }
 
           
@@ -80,9 +86,13 @@ class _FollowingScreenState extends State<FollowingScreen> {
           return ListView.builder(
             itemCount: following.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(following[index].login),
-                subtitle: Text('ID: ${following[index].id}'),
+              return Column(
+                children: [
+               ListTile(
+                title: Text(following[index].login,
+                style: const TextStyle(color: Colors.white),),
+                subtitle: Text('ID: ${following[index].id}',
+                style: const TextStyle(color: Colors.white),),
                 onTap: () async {
                   final Uri url = Uri.parse(following[index].htmlUrl);
                   if (await canLaunchUrl(url)) {
@@ -91,6 +101,11 @@ class _FollowingScreenState extends State<FollowingScreen> {
                     throw 'Could not launch ${following[index].htmlUrl}';
                   }
                 },
+              ),
+              const Divider(
+                color: Colors.white54,
+                thickness: 1,),
+                ],
               );
             },
           );

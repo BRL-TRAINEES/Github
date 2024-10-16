@@ -56,27 +56,41 @@ class _OrganisationScreenState extends State<OrganisationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Organisations'),
+        title: const Text('Organisations',
+        style: TextStyle(color: Colors.white,
+        fontSize: 18),),
+        backgroundColor: const Color(0xFF2B2B2B),
+       iconTheme: const IconThemeData(color: Colors.white),
       ),
+      backgroundColor: Colors.black,
       body: FutureBuilder<List<Organisation>>(
         future: futureOrganisations,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData ) {
-            return Center(child: Text('No organisations found'));
+            return const Center(child: Text('No organisations found'));
           }
 
           List<Organisation> organisations = snapshot.data!;
           return ListView.builder(
             itemCount: organisations.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(organisations[index].login),
-                subtitle: Text('ID: ${organisations[index].id}'),
+              return Column(
+                children: [ 
+              ListTile(
+                title: Text(organisations[index].login,
+                style: const TextStyle(color: Colors.white),),
+                subtitle: Text('ID: ${organisations[index].id}',
+                style: const TextStyle(color: Colors.white),),
                
+              ),
+              const Divider(
+                color:Colors.white54 ,
+                thickness: 1,),
+                ],
               );
             },
           );

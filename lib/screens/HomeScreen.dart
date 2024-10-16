@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animations/animations.dart';
 import 'package:github/screens/ExploreScreen.dart';
 import 'package:github/screens/Followers.dart';
 import 'package:github/screens/Following.dart';
@@ -16,10 +17,6 @@ class UserProfile {
   final int following;
   final int publicRepos;
 
-// if required is not used it gives this error
-//The parameter 'login' can't have a value of 'null' because of its type, but the implicit default value is 'null'.
-// Try adding either an explicit non-'null' default value or the 'required'
-
   UserProfile({
     required this.login,
     required this.id,
@@ -29,7 +26,6 @@ class UserProfile {
     required this.publicRepos,
   });
 
-  // Factory method is used to extract these data from the json
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
       login: json['login'],
@@ -42,13 +38,11 @@ class UserProfile {
   }
 }
 
-// This is used to fetch the data
 Future<UserProfile> fetchProfile(String username) async {
   final response =
       await http.get(Uri.parse("https://api.github.com/users/$username"));
 
   if (response.statusCode == 200) {
-    // 200 = Ok response it parses the JSON.
     return UserProfile.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load profile');
@@ -64,17 +58,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<UserProfile> futureProfile;
-  // when we dont know the value initially and it could be null we use late
   final TextEditingController _controller = TextEditingController();
 
   @override
-  //initstate is used so that the function automatically runs when user comes on that page
   void initState() {
     super.initState();
     futureProfile = fetchProfile('Dikshant005');
   }
 
-//setstate tells the flutter framework that something has changed in this state then it rebuilds and gives the updated result
   void _searchProfile() {
     setState(() {
       futureProfile = fetchProfile(_controller.text);
@@ -85,30 +76,31 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'GitHub',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
-        backgroundColor: Color(0xFF2B2B2B),
+        backgroundColor: const Color(0xFF2B2B2B),
       ),
-      backgroundColor: Color.fromARGB(1, 32, 33, 35),
+      backgroundColor: Colors.black,
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
             controller: _controller,
-            style: TextStyle(color: Colors.white30),
-            cursorColor: Colors.white30,
+            style: const TextStyle(color: Colors.white),
+            cursorColor: Colors.white54,
             decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white30)),
-              focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white30)),
+              enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white54)),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white54)),
               labelText: 'Enter GitHub Username',
-              labelStyle: TextStyle(color: Color.fromARGB(255, 112, 109, 109)),
+              labelStyle: const TextStyle(color: Colors.white),
               suffixIcon: IconButton(
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search,color: Colors.white54,),
                 onPressed: _searchProfile,
+                
               ),
             ),
           ),
@@ -118,11 +110,11 @@ class _HomeScreenState extends State<HomeScreen> {
             future: futureProfile,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (!snapshot.hasData) {
-                return Center(child: Text('No data found'));
+                return const Center(child: Text('No data found'));
               }
 
               UserProfile profile = snapshot.data!;
@@ -131,8 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Container(
                   height: 450,
                   width: 380,
-                  margin: EdgeInsets.only(top: 30, right: 10, left: 10),
-                  padding: EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.only(top: 30, right: 10, left: 10),
+                  padding: const EdgeInsets.all(20.0),
                   decoration: BoxDecoration(
                     color: Colors.grey[850],
                     borderRadius: BorderRadius.circular(15),
@@ -140,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: Column(
                           children: [
                             CircleAvatar(
@@ -148,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               backgroundImage: NetworkImage(
                                   'https://avatars.githubusercontent.com/u/${profile.id}?v=4'),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             InkWell(
                               onTap: () async {
                                 final url = Uri.parse(profile.url);
@@ -160,88 +152,82 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               child: Text(
                                 profile.login,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10.0),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FollowersScreen(
-                                        username: profile.login),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'Followers: ${profile.followers}',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
+                            const SizedBox(height: 10.0),
+                            OpenContainer(
+                              transitionDuration: const Duration(milliseconds: 500),
+                              closedElevation: 0,
+                              closedColor: Colors.transparent,
+                              openBuilder: (context, _) => FollowersScreen(username: profile.login),
+                              closedBuilder: (context, openContainer) => GestureDetector(
+                                onTap: openContainer,
+                                child: Text(
+                                  'Followers: ${profile.followers}',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
                               ),
                             ),
-                            SizedBox(height: 10.0),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FollowingScreen(
-                                        username: profile.login),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'Following: ${profile.following}',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
+                            const SizedBox(height: 10.0),
+                            OpenContainer(//widget by animation package
+                              transitionDuration: const Duration(milliseconds: 500),
+                              closedElevation: 0, //container will have no shadow when its closed
+                              closedColor: Colors.transparent,//if this is not used container background turns white
+                              openBuilder: (context, _) => FollowingScreen(username: profile.login),
+                              closedBuilder: (context, openContainer) => GestureDetector(
+                                onTap: openContainer,
+                                child: Text(
+                                  'Following: ${profile.following}',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      const SizedBox(height: 20.0),
                       Container(
                         width: 200,
-                        padding: EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(20.0),
                         decoration: BoxDecoration(
-                          color: Color(0xFF2B2B2B),
+                          color: const Color(0xFF2B2B2B),
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Column(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RepositoriesScreen(
-                                        username: profile.login),
-                                  ),
-                                );
-                              },
-                              child: Text(
+                            OpenContainer(
+                              transitionDuration: const Duration(milliseconds: 500),
+                              closedElevation: 0,
+                              closedColor: Colors.transparent,
+                              openBuilder: (context, _) => RepositoriesScreen(username: profile.login),
+                              closedBuilder: (context, openContainer) => GestureDetector(
+                                onTap: openContainer,
+                                child: Text(
                                   'Repositories: ${profile.publicRepos}',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16)),
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ),
                             ),
-                            SizedBox(height: 10.0),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OrganisationScreen(
-                                        username: profile.login),
-                                  ),
-                                );
-                              },
-                              child: Text('Organisations',
+                            const SizedBox(height: 10.0),
+                            OpenContainer(
+                              transitionDuration: const Duration(milliseconds: 500),
+                              closedElevation: 0,
+                              closedColor: Colors.transparent,
+                              openBuilder: (context, _) => OrganisationScreen(username: profile.login),
+                              closedBuilder: (context, openContainer) => GestureDetector(
+                                onTap: openContainer,
+                                child: const Text(
+                                  'Organisations',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 16)),
+                              ),
                             ),
                           ],
                         ),
@@ -256,19 +242,20 @@ class _HomeScreenState extends State<HomeScreen> {
       ]),
       bottomNavigationBar: Container(
         height: 100,
-        margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+        margin: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
         decoration: BoxDecoration(
-          color: Color(0xFF2B2B2B),
+          color: const Color(0xFF2B2B2B),
           borderRadius: BorderRadius.circular(15),
         ),
         child: Center(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Explorescreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Explorescreen()),
+              );
             },
-            //API not found
-            child: Text('Explore',
+            child: const Text('Explore',
                 style: TextStyle(color: Colors.white, fontSize: 18)),
           ),
         ),

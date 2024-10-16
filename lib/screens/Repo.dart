@@ -55,26 +55,36 @@ class _RepositoriesScreenState extends State<RepositoriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Repositories'),
+        title: const Text('Repositories',
+        style: TextStyle(color: Colors.white,
+        fontSize: 18),
+        ),
+        backgroundColor: const Color(0xFF2B2B2B),
+       iconTheme: const IconThemeData(color: Colors.white),
       ),
+      backgroundColor: Colors.black,
       body: FutureBuilder<List<Repo>>(
         future: futureRepos,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No repositories found'));
+            return const Center(child: Text('No repositories found'));
           }
 
           List<Repo> repos = snapshot.data!;
           return ListView.builder(
             itemCount: repos.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(repos[index].name),
-                subtitle: Text('ID: ${repos[index].id}'),
+              return Column(
+                children : [
+              ListTile(
+                title: Text(repos[index].name,
+                style: const TextStyle(color: Colors.white),),
+                subtitle: Text('ID: ${repos[index].id}',
+                style: const TextStyle(color: Colors.white),),
                 onTap: () async {
                   final Uri url = Uri.parse(repos[index].htmlUrl);
                   if (await canLaunchUrl(url)) {
@@ -83,8 +93,15 @@ class _RepositoriesScreenState extends State<RepositoriesScreen> {
                     throw 'Could not launch ${repos[index].htmlUrl}';
                   }
                 },
+              ),
+              const Divider(
+                color: Colors.white54,
+                thickness:1,),
+                ],
               );
+
             },
+          
           );
         },
       ),
