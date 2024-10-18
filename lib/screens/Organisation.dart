@@ -6,11 +6,11 @@ import 'package:http/http.dart' as http;
 class Organisation {
   final String login;
   final int id;
-  
-
+  final String avatar_url;
   Organisation({
     required this.login,
     required this.id,
+    required this.avatar_url,
     
   });
 
@@ -18,6 +18,7 @@ class Organisation {
     return Organisation(
       login: json['login'],
       id: json['id'],
+      avatar_url: json['avatar_url'],
       
     );
   }
@@ -81,6 +82,9 @@ class _OrganisationScreenState extends State<OrganisationScreen> {
               return Column(
                 children: [ 
               ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(organisations[index].avatar_url),
+                ),
                 title: Text(organisations[index].login,
                 style: const TextStyle(color: Colors.white),),
                 subtitle: Text('ID: ${organisations[index].id}',

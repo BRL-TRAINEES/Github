@@ -8,11 +8,13 @@ class Following {
   final String login;
   final int id;
   final String htmlUrl;
+  final String avatar_url;
 
   Following({
     required this.login,
     required this.id,
     required this.htmlUrl,
+    required this.avatar_url,
   });
 
 
@@ -21,6 +23,7 @@ class Following {
       login: json['login'],
       id: json['id'],
       htmlUrl: json['html_url'],
+      avatar_url: json['avatar_url']
     );
   }
 }
@@ -89,6 +92,9 @@ class _FollowingScreenState extends State<FollowingScreen> {
               return Column(
                 children: [
                ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(following[index].avatar_url),
+                ),
                 title: Text(following[index].login,
                 style: const TextStyle(color: Colors.white),),
                 subtitle: Text('ID: ${following[index].id}',

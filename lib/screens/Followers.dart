@@ -8,11 +8,15 @@ class Followers {
   final String login;
   final int id;
   final String htmlUrl;
+  final String avatar_url;
+
 
   Followers({
     required this.login,
     required this.id,
     required this.htmlUrl,
+    required this.avatar_url,
+
   });
 
   factory Followers.fromJson(Map<String, dynamic> json) {
@@ -20,6 +24,8 @@ class Followers {
       login: json['login'],
       id: json['id'],
       htmlUrl: json['html_url'],
+      avatar_url: json['avatar_url'],
+ 
     );
   }
 }
@@ -85,6 +91,9 @@ class _FollowersScreenState extends State<FollowersScreen> {
             itemBuilder: (context, index) {
               return Column(
               children: [ ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(followers[index].avatar_url),
+                ),
                 title: Text(followers[index].login,
                 style: const TextStyle(color: Colors.white),),
                 subtitle: Text('ID: ${followers[index].id}',

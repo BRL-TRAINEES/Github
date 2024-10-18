@@ -7,11 +7,13 @@ class Repo {
   final String name;
   final int id;
   final String htmlUrl;
+  final String avatar_url;
 
   Repo({
     required this.name,
     required this.id,
     required this.htmlUrl,
+    required this.avatar_url,
   });
 
   factory Repo.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class Repo {
       name: json['name'],
       id: json['id'],
       htmlUrl: json['html_url'], // Fix key to match GitHub API response
+      avatar_url: json['owner']['avatar_url'],
     );
   }
 }
@@ -81,6 +84,9 @@ class _RepositoriesScreenState extends State<RepositoriesScreen> {
               return Column(
                 children : [
               ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(repos[index].avatar_url),
+                ),
                 title: Text(repos[index].name,
                 style: const TextStyle(color: Colors.white),),
                 subtitle: Text('ID: ${repos[index].id}',
